@@ -9,7 +9,7 @@
 #'
 tidy_test_names <- function(x){
 
-  SampleData <- x
+  SampleData <- x %>% tidy_observation_data()
 
   data_bio <- biomonitoR::as_biomonitor(SampleData, group = "mi", traceB = TRUE)
 

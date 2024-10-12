@@ -11,7 +11,12 @@
 #'
 tidy_indicators <- function(x) {
 
-  SampleData <- x
+  SampleData <- x %>% tidy_observation_data()
+  test.names <- SampleData %>% tidy_test_names()
+  if(test.names$problem.logic) {
+    indicator_scores <- test.names$suggested.taxa
+
+  }else {
 
   whpt_df <- SampleData %>% tidy_whpt(aspt = FALSE)
   whpt_df_aspt <- SampleData %>% tidy_whpt(aspt = TRUE)
@@ -19,6 +24,7 @@ tidy_indicators <- function(x) {
   bmwp_df_aspt <- SampleData %>% tidy_bmwp(aspt = TRUE)
   coleoptera_taxa <- SampleData %>% tidy_coleoptera()
   dragonfly_and_allies <- SampleData %>% tidy_dragonfly_allies()
+  }
 
   indicator_scores <- rbind(whpt_df,whpt_df_aspt,bmwp_df,bmwp_df_aspt, coleoptera_taxa, dragonfly_and_allies)
 

@@ -16,6 +16,15 @@
 #'
 tidy_whpt <- function(x, aspt = TRUE, ...) {
 
+  SampleData <- x %>% tidy_observation_data()
+  test.names <- SampleData %>% tidy_test_names()
+  if(test.names$problem.logic) {
+    indicator_scores <- test.names$suggested.taxa
+
+  }else {
+
+
+
   # import macroinvertebrate data group mi
   data_bio <- biomonitoR::as_biomonitor(x, group = "mi")
   rows_data_bio <- nrow(data_bio$taxa_db)
@@ -41,4 +50,4 @@ tidy_whpt <- function(x, aspt = TRUE, ...) {
 
   return(df.out)
 
-}
+} }

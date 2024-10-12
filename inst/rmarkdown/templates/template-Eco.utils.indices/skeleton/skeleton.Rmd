@@ -1,16 +1,83 @@
 ---
-title: "Template Title"
+title: "Untitled"
 author: "Your Name"
-date: "The Date"
-output: output_format
+date: "date"
+output: pdf_document
 ---
 
-  ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, include=FALSE}
+
+library(tidyverse) # Load all the Tidyverse packages 
+library(janitor) # Needed for some of the functions
+library(biomonitoR) # Source of all the indices
+
+# A good starter set of options
+knitr::opts_chunk$set(include = TRUE, 
+                      echo = FALSE, 
+                      warning=FALSE, 
+                      message=FALSE, 
+                      error=FALSE, 
+                      dev = c("pdf", "png"),
+                    out.width = '80%',
+                      fig.align = "center",
+                      results='asis')
 ```
 
-## This is a test template
+# Sample Data
 
-This file is what a user will see when they select your template. Make sure that you update the fields in the yaml header. In particular you will want to update the `output` field to whatever format your template requires.
+```{r ObservationData}
+# Meta data. 
+# Text in quotation marks and commas for new lines
 
-This is a good place to demonstrate special features that your template provides. Ideally it should knit out-of-the-box, or at least contain clear instructions as to what needs changing.
+# Metadata minimum must be datumEntity.
+# Add as many extra rows as you like.
+observation.meta.data <- list(
+  recordID = "Record Reference",
+  date = "2024-09-16", # ISO format YYYY-MM-DD dashes not slashes!
+  place = "L3 Green Bank",
+  recorder = "TS"
+)
+
+# List of Families present with number observed. Zero values ignored.
+observation.sample <- list(
+  Dryopidae = 1, # Test coleoptera
+  Sphaeriidae = 10,
+  Corixidae = 50,
+  Gerridae = 10,
+  Naucoridae = 25,
+  Notonectidae = 25,
+  Pleidae = 100,
+  Coenagrionidae = 1,
+  Aeshnidae = 1,
+  Planariidae = 10,
+  Simuliidae = 1,
+  Chironomidae = 50,
+  Erpobdellidae = 25,
+  Glossiphoniidae = 25,
+  Baetidae = 50,
+  Gammaridae = 100,
+  Hydrobiidae = 25,
+  Lymnaeidae = 50,
+  Physidae = 10,
+  Planorbidae = 25,
+  Asellidae = 25
+)
+
+# Now make the sample data
+SampleData <- Eco.utils.indices::tidy_observation_maker(observation.meta.data,  observation.sample)
+# And get the scores
+knitr::combine_words(paste("Metadata",  names(observation.meta.data), observation.meta.data, sep = ": ", collapse = ", "))
+knitr::combine_words(paste("Observations",  names(observation.sample), observation.sample, sep = ": ", collapse = ", "))
+
+```
+
+
+
+```{r IndicatorScores}
+indicator_scores <- SampleData %>% Eco.utils.indices::tidy_indicators()
+
+  pander::pandoc.table(indicator_scores, justify = 'right')
+
+
+```
+

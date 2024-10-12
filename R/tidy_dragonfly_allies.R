@@ -12,6 +12,13 @@
 #'
 tidy_dragonfly_allies <- function(x){
 
+  SampleData <- x %>% tidy_observation_data()
+  test.names <- SampleData %>% tidy_test_names()
+  if(test.names$problem.logic) {
+    indicator_scores <- test.names$suggested.taxa
+
+  }else {
+
   data_bio <- biomonitoR::as_biomonitor(x, group = "mi")
 
   macro_ex.df <- as.data.frame(data_bio) # Demo convert to df
@@ -48,6 +55,6 @@ tidy_dragonfly_allies <- function(x){
   # the_names <- colnames(dragonfly.count)
   # the_names[1] <- "Indicator"
   # colnames(dragonfly.count) <- the_names
-
+}
   return(count_dragonfly_df)
 }
