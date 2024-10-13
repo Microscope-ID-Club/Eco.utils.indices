@@ -81,3 +81,15 @@ indicator_scores <- SampleData %>% Eco.utils.indices::tidy_indicators()
 
 ```
 
+
+```{r saveFile}
+
+filename <- fs::path( SampleData$recordID[1], ext = "csv")
+
+readr::write_csv(SampleData, file = filename)
+
+
+
+```
+
+
